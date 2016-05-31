@@ -21,7 +21,7 @@ RUN yum clean all
 RUN yum update -y
 
 # Install Nagios prereq's and some common stuff (we will get the epel release for the nagios install).
-RUN yum install -y httpd php php-cli openssl mod_ssl perl epel-release sendmail crontabs bash-completion vim-common vim-enhanced mlocate wget unzip curl perl screen ntp man
+RUN yum install -y httpd yum-utils php php-cli openssl mod_ssl perl epel-release sendmail crontabs bash-completion vim-common vim-enhanced mlocate wget unzip curl perl screen ntp man
 
 # Add nagios and apache group and user info
 RUN useradd nagios
@@ -30,8 +30,10 @@ RUN usermod -a -G nagcmd nagios
 RUN usermod -a -G nagcmd apache
 
 # Get the nagios rpm's
+RUN yum-config-manager --enable epel-testing
 RUN yum clean all
 RUN yum install -y nagios nrpe nagios-plugins-all pnp4nagios
+RUN yum-config-manager --disable epel-testing
 
 # Load in all of our config files.
 ADD    ./configs/htpasswd.users /etc/nagios/passwd
