@@ -33,6 +33,9 @@ RUN usermod -a -G nagcmd apache
 RUN yum clean all
 RUN yum install -y nagios nrpe nagios-plugins-all pnp4nagios
 
+# Load in all of our config files.
+ADD    ./configs/htpasswd.users /etc/nagios/passwd
+
 # Start our services
 RUN service nagios start
 RUN service nrpe start
