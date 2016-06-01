@@ -37,7 +37,8 @@ RUN yum-config-manager --disable epel-testing
 
 # Load in all of our config files.
 ADD    ./configs/htpasswd.users /etc/nagios/passwd
-
+# Fix for docker on Windows and OSX
+ADD mkdir /var/run/nagios && chown nagios:apache /var/run/nagios
 # Start our services
 RUN service nagios start
 RUN service nrpe start
