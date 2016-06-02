@@ -38,7 +38,7 @@ RUN yum-config-manager --disable epel-testing
 # Load in all of our config files.
 ADD    ./configs/htpasswd.users /etc/nagios/passwd
 
-# Fix for docker on Windows and OSX
+# Fix for docker on Windows and OSX.  I have tested this container on Ubuntu, Centos, Windows 10, and OSX Yosemite.  This fixes oddball behavior in Windows and OSX.
 RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios/rw && /bin/chown -R nagios:apache var/log/nagios/rw && /bin/chown -R nagios:apache /etc/nagios
 
 # Start our services
