@@ -39,21 +39,13 @@ RUN yum-config-manager --disable epel-testing
 ADD    ./configs/htpasswd.users /etc/nagios/passwd
 
 # Fix for docker on Windows and OSX
-ADD mkdir /var/run/nagios && chown nagios:apache /var/run/nagios && chown -R nagios:apache /etc/nagios && mkdir /var/log/nagios/rw && su - nagios && mkdir /var/log/nagios/rw && exit
+RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios/rw && /bin/chown -R nagios:apache var/log/nagios/rw && /bin/chown -R nagios:apache /etc/nagios
 
 # Start our services
-RUN service nagios start
-RUN service nrpe start
-RUN service crond start
-RUN service httpd start
-RUN service sendmail start
+RUN for service in nrpe nagios crond httpd sendmail;do service $service start;done
 
 # Enable system services to start
-RUN chkconfig nagios on
-RUN chkconfig nrpe on
-RUN chkconfig crond on
-RUN chkconfig httpd on
-RUN chkconfig sendmail on
+RUN for startem in nrpe nagios crond httpd sendmail;do chkconfig $startemi on;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
