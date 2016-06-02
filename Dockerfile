@@ -35,8 +35,8 @@ RUN yum clean all
 RUN yum install -y nagios nrpe nagios-plugins-all pnp4nagios
 RUN yum-config-manager --disable epel-testing
 
-# Load in all of our config files.
-ADD    ./configs/htpasswd.users /etc/nagios/passwd
+# Create and set the nagios login and password (change this for your custom use - username first then password). 
+RUN /bin/htpasswd -c -b /etc/nagios/passwd nagiosadmin nagiosadmin
 
 # Fix for docker on Windows and OSX.  I have tested this container on Ubuntu, Centos, Windows 10, and OSX Yosemite.  This fixes oddball behavior in Windows and OSX.
 RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios/rw && /bin/chown -R nagios:apache var/log/nagios/rw && /bin/chown -R nagios:apache /etc/nagios
