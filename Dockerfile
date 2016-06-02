@@ -45,7 +45,7 @@ RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios &&
 RUN for service in nrpe nagios crond httpd sendmail;do service $service start;done
 
 # Enable system services to start
-RUN for startem in nrpe nagios crond httpd sendmail;do chkconfig $startemi on;done
+RUN for enableme in nrpe nagios crond httpd sendmail;do /sbin/chkconfig $enableme on;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
