@@ -4,11 +4,11 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: May 29th, 2016
+# Updated: March 11th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
-# Base system is CentOS 6.7
+# Base system is CentOS 6.8
 FROM    centos:centos6
 MAINTAINER "Bosman"
 ENV container docker
