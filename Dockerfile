@@ -12,6 +12,16 @@
 FROM    centos:centos6
 MAINTAINER "Bosman"
 ENV container docker
+ENV NAGIOS_HOME			/etc/nagios
+ENV NAGIOS_USER			nagios
+ENV NAGIOS_GROUP		nagios
+ENV NAGIOS_CMDUSER		nagios
+ENV NAGIOS_CMDGROUP		nagios
+ENV NAGIOSADMIN_USER		nagiosadmin
+ENV NAGIOSADMIN_PASS		nagios
+ENV APACHE_RUN_USER		nagios
+ENV APACHE_RUN_GROUP		nagios
+ENV NAGIOS_TIMEZONE		MST
 
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
