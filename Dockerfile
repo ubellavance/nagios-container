@@ -4,7 +4,7 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: March 11th, 2017
+# Updated: March 29th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
@@ -40,6 +40,7 @@ RUN yum install -y \
 	mod_ssl \
 	perl \
 	epel-release \
+	mlocate \
 	sendmail \
 	crontabs \
 	bash-completion \
@@ -52,7 +53,12 @@ RUN yum install -y \
 	perl \
 	screen \
 	ntp \	
-	man
+	man \
+	perl-CGI \
+	rrdtool-php \
+	perl-GD \
+	perl-Nagios-Plugin \
+	perl-CPAN
 
 # Add nagios and apache group and user info
 RUN useradd nagios
@@ -63,17 +69,20 @@ RUN usermod -a -G nagcmd apache
 # Get the nagios rpm's
 RUN yum-config-manager --enable epel-testing
 RUN yum clean all
-RUN yum install -y nagios nrpe nagios-plugins-all pnp4nagios
+RUN yum install -y nrpe \
+	nagios \
+	nagios-plugins-all \
+	pnp4nagios 
 RUN yum-config-manager --disable epel-testing
 
 # Create and set the nagios login and password (change this for your custom use - username first then password). 
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 
 # Fix for docker on Windows and OSX.  I have tested this container on Ubuntu, Centos, Windows 10, and OSX Yosemite.  This fixes oddball behavior in Windows and OSX.
-RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios/rw && /bin/chown -R nagios:apache var/log/nagios/rw && /bin/chown -R nagios:apache /etc/nagios
+RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios && /bin/chown -R nagios:apache /var/log/nagios && /bin/chown -R nagios:apache /etc/nagios
 
 # Start our services
-RUN for service in nrpe nagios crond httpd sendmail;do service $service start;done
+RUN for service in nrpe crond httpd nagios sendmail;do service $service start;done
 
 # Enable system services to start
 RUN for enableme in nrpe nagios crond httpd sendmail;do /sbin/chkconfig $enableme on;done
