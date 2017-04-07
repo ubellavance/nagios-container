@@ -4,7 +4,7 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: April 6th, 2017
+# Updated: April 7th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
@@ -45,6 +45,8 @@ RUN yum install -y \
 	vim-common \
 	vim-enhanced \
 	mlocate \
+	sysstat \
+	mpstat \
 	wget \
 	unzip \
 	curl \
@@ -52,7 +54,6 @@ RUN yum install -y \
 	ntp \	
 	man \
 	elinks \
-	wireshark \
 	cronie \
 	mtr \
 	traceroute \
