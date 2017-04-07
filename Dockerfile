@@ -4,7 +4,7 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: March 29th, 2017
+# Updated: April 6th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
@@ -33,13 +33,11 @@ RUN yum update -y
 # Install Nagios prereq's and some common stuff (we will get the epel release for the nagios install).
 RUN yum install -y \
 	httpd \
+	mod_ssl \
 	yum-utils \
 	php \
 	php-cli \
 	openssl \
-	mod_ssl \
-	perl \
-	epel-release \
 	mlocate \
 	sendmail \
 	crontabs \
@@ -50,15 +48,22 @@ RUN yum install -y \
 	wget \
 	unzip \
 	curl \
-	perl \
 	screen \
 	ntp \	
 	man \
+	elinks \
+	wireshark \
+	cronie \
+	mtr \
+	traceroute \
+	nmap \
+	ipset \
+	bridge-utils \
+	perl \
 	perl-CGI \
-	rrdtool-php \
 	perl-GD \
-	perl-Nagios-Plugin \
-	perl-CPAN
+	perl-CPAN \
+	epel-release 
 
 # Add nagios and apache group and user info
 RUN useradd nagios
@@ -72,6 +77,7 @@ RUN yum clean all
 RUN yum install -y nrpe \
 	nagios \
 	nagios-plugins-all \
+	perl-Nagios-Plugin \
 	pnp4nagios 
 RUN yum-config-manager --disable epel-testing
 
@@ -79,10 +85,10 @@ RUN yum-config-manager --disable epel-testing
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 
 # Fix for docker on Windows and OSX.  I have tested this container on Ubuntu, Centos, Windows 10, and OSX Yosemite.  This fixes oddball behavior in Windows and OSX.
-RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios && /bin/chown -R nagios:apache /var/log/nagios && /bin/chown -R nagios:apache /etc/nagios
+#RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios && /bin/chown -R nagios:apache /var/log/nagios && /bin/chown -R nagios:apache /etc/nagios
 
 # Start our services
-RUN for service in nrpe crond httpd nagios sendmail;do service $service start;done
+RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
 
 # Enable system services to start
 RUN for enableme in nrpe nagios crond httpd sendmail;do /sbin/chkconfig $enableme on;done
