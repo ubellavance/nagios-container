@@ -37,19 +37,15 @@ RUN yum install -y \
 	yum-utils \
 	php \
 	php-cli \
-	openssl \
 	mlocate \
 	sendmail \
 	crontabs \
-	bash-completion \
 	vim-common \
 	vim-enhanced \
 	mlocate \
 	sysstat \
-	mpstat \
 	wget \
 	unzip \
-	curl \
 	screen \
 	ntp \	
 	man \
@@ -79,6 +75,7 @@ RUN yum install -y nrpe \
 	nagios \
 	nagios-plugins-all \
 	perl-Nagios-Plugin \
+	bash-completion \
 	pnp4nagios 
 RUN yum-config-manager --disable epel-testing
 
