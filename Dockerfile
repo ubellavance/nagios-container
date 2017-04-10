@@ -11,24 +11,25 @@
 # Base system is CentOS 6.8
 FROM    centos:centos6
 MAINTAINER "Bosman"
-ENV container docker
-ENV NAGIOS_HOME			/etc/nagios
-ENV NAGIOS_USER			nagios
-ENV NAGIOS_GROUP		nagios
-ENV NAGIOS_CMDUSER		nagios
-ENV NAGIOS_CMDGROUP		nagios
-ENV NAGIOSADMIN_USER		nagiosadmin
-ENV NAGIOSADMIN_PASS		nagios
-ENV APACHE_RUN_USER		nagios
-ENV APACHE_RUN_GROUP		nagios
-ENV NAGIOS_TIMEZONE		MST
+ENV container=docker \
+	NAGIOS_HOME="/etc/nagios" \
+	NAGIOS_USER="nagios" \
+	NAGIOS_GROUP="nagios" \
+	NAGIOS_CMDUSER="nagios" \
+	NAGIOS_CMDGROUP="nagios" \
+	NAGIOSADMIN_USER="nagiosadmin" \
+	NAGIOSADMIN_PASS="nagios" \
+	APACHE_RUN_USER="nagios" \
+	APACHE_RUN_GROUP="nagios" \
+	NAGIOS_TIMEZONE		MST
 
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
 
 # Lets get the latest patches for CentOS
-RUN yum clean all
-RUN yum update -y
+RUN yum clean all \
+	&& yum update -y \
+	&& yum install -y
 
 # Install Nagios prereq's and some common stuff (we will get the epel release for the nagios install).
 RUN yum install -y \
@@ -63,15 +64,15 @@ RUN yum install -y \
 	epel-release 
 
 # Add nagios and apache group and user info
-RUN useradd nagios
-RUN groupadd nagcmd
-RUN usermod -a -G nagcmd nagios
-RUN usermod -a -G nagcmd apache
+RUN useradd nagios \
+	&& groupadd nagcmd \
+	&& usermod -a -G nagcmd nagios \
+	&& usermod -a -G nagcmd apache
 
 # Get the nagios rpm's
-RUN yum-config-manager --enable epel-testing
-RUN yum clean all
-RUN yum install -y nrpe \
+RUN yum-config-manager --enable epel-testing \
+	&& yum clean all \
+	&& yum install -y nrpe \
 	nagios \
 	nagios-plugins-all \
 	perl-Nagios-Plugin \
