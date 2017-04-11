@@ -28,8 +28,7 @@ ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
 
 # Lets get the latest patches for CentOS
 RUN yum clean all \
-	&& yum update -y \
-	&& yum install -y
+	&& yum update -y
 
 # Install Nagios prereq's and some common stuff (we will get the epel release for the nagios install).
 RUN yum install -y \
