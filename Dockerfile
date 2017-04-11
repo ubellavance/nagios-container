@@ -21,7 +21,7 @@ ENV container=docker \
 	NAGIOSADMIN_PASS="nagios" \
 	APACHE_RUN_USER="nagios" \
 	APACHE_RUN_GROUP="nagios" \
-	NAGIOS_TIMEZONE		MST
+	NAGIOS_TIMEZONE="MST"
 
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
