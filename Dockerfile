@@ -4,11 +4,11 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: April 7th, 2017
+# Updated: April 18th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
-# Base system is CentOS 6.8
+# Base system is CentOS 6.9
 FROM    centos:centos6
 MAINTAINER "Bosman"
 ENV container=docker \
@@ -28,8 +28,7 @@ ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
 
 # Lets get the latest patches for CentOS
 RUN yum clean all \
-	&& yum update -y \
-	&& yum install -y
+	&& yum update -y
 
 # Install Nagios prereq's and some common stuff (we will get the epel release for the nagios install).
 RUN yum install -y \
@@ -82,9 +81,6 @@ RUN yum-config-manager --disable epel-testing
 
 # Create and set the nagios login and password (change this for your custom use - username first then password). 
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
-
-# Fix for docker on Windows and OSX.  I have tested this container on Ubuntu, Centos, Windows 10, and OSX Yosemite.  This fixes oddball behavior in Windows and OSX.
-#RUN /bin/mkdir -p /var/run/nagios && /bin/chown nagios:apache /var/run/nagios && /bin/mkdir -p /var/log/nagios && /bin/chown -R nagios:apache /var/log/nagios && /bin/chown -R nagios:apache /etc/nagios
 
 # Start our services
 RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
