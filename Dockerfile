@@ -96,8 +96,10 @@ RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/
 EXPOSE 443
 # 80 is for http
 EXPOSE 80
-# 123 for NTP
+# 123 for ntp
 EXPOSE 123/UDP
+# 5666 for nrpe
+EXPOSE 5666
 
 # /start it
 CMD ["/sbin/init"]
