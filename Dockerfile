@@ -99,7 +99,8 @@ EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
 
-ADD entry.sh /entry.sh
+# Entry stuff
+COPY entry.sh /entry.sh
 
 # entry_point
 ENTRYPOINT ["/entry.sh"]
