@@ -4,7 +4,7 @@
 # Builds a basic docker image that can run nagios
 #
 # Authors: Bosman
-# Updated: April 18th, 2017
+# Updated: April 20th, 2017
 # Require: Docker (http://www.docker.io/)
 # -----------------------------------------------------------------------------
 
@@ -85,9 +85,6 @@ RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 
 # Start our services
 RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
-
-# Enable system services to start
-RUN for enableme in nrpe crond;do /sbin/chkconfig $enableme on;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
