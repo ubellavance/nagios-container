@@ -3,5 +3,4 @@
 /etc/init.d/postfix start
 /etc/init.d/crond start
 /etc/init.d/nrpe start
-
-exec ${NAGIOS_BIN}/nagios ${NAGIOS_HOME}/nagios.cfg
+/etc/init.d/nagios start
