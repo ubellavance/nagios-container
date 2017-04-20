@@ -4,4 +4,4 @@
 /etc/init.d/crond start
 /etc/init.d/nrpe start
 
-exec ${NAGIOS_BIN}/usr/sbin/nagios ${NAGIOS_HOME}/nagios.cfg
+exec ${NAGIOS_BIN}/nagios ${NAGIOS_HOME}/nagios.cfg
