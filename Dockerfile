@@ -13,6 +13,7 @@ FROM    centos:centos6
 MAINTAINER "Bosman"
 ENV container=docker \
 	NAGIOS_HOME="/etc/nagios" \
+	NAGIOS_BIN="/usr/sbin/nagios" \
 	NAGIOS_USER="nagios" \
 	NAGIOS_GROUP="nagios" \
 	NAGIOS_CMDUSER="nagios" \
@@ -86,7 +87,7 @@ RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
 
 # Enable system services to start
-RUN for enableme in nrpe nagios crond httpd sendmail;do /sbin/chkconfig $enableme on;done
+RUN for enableme in nrpe crond;do /sbin/chkconfig $enableme on;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
@@ -101,5 +102,7 @@ EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
 
-# /start it
-CMD ["/sbin/init"]
+ADD entry.sh /entry.sh
+
+# entry_point
+ENTRYPOINT ["/entry.sh"]
