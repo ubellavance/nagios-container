@@ -86,6 +86,9 @@ RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 # Start our services
 RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
 
+# Config services startup
+RUN RUN for start in nrpe crond httpd nagios sendmail;do /etc/init.d/$service start;done
+
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
 
@@ -99,8 +102,4 @@ EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
 
-# Entry stuff
-COPY entry.sh /entry.sh
-
-# entry_point
-ENTRYPOINT ["/entry.sh"]
+CMD ["/sbin/init"]
