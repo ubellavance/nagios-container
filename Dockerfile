@@ -87,7 +87,7 @@ RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
 
 # Config services startup
-RUN for start in nrpe crond httpd nagios sendmail;do /etc/init.d/$service start;done
+RUN for service in nrpe crond httpd nagios sendmail;do $service start;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
