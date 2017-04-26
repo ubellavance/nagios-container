@@ -102,4 +102,4 @@ EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
 
-ENTRYPOINT ["/sbin/init"]
+ENTRYPOINT ["/bin/bash"]
