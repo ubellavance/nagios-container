@@ -48,7 +48,7 @@ RUN yum install -y \
 	wget \
 	unzip \
 	screen \
-	ntp \	
+	ntp \
 	man \
 	elinks \
 	cronie \
@@ -56,12 +56,13 @@ RUN yum install -y \
 	traceroute \
 	nmap \
 	ipset \
+	postfix \
 	bridge-utils \
 	perl \
 	perl-CGI \
 	perl-GD \
 	perl-CPAN \
-	epel-release 
+	epel-release
 
 # Add nagios and apache group and user info
 RUN useradd nagios \
@@ -77,17 +78,17 @@ RUN yum-config-manager --enable epel-testing \
 	nagios-plugins-all \
 	perl-Nagios-Plugin \
 	bash-completion \
-	pnp4nagios 
+	pnp4nagios
 RUN yum-config-manager --disable epel-testing
 
-# Create and set the nagios login and password (change this for your custom use - username first then password). 
+# Create and set the nagios login and password (change this for your custom use - username first then password).
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 
 # Start our services
-RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
+#RUN for startup in nrpe crond httpd nagios sendmail;do /sbin/service $startup on;done
 
 # Config services startup
-RUN for service in nrpe crond httpd nagios sendmail;do $service start;done
+#RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
 
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
@@ -102,4 +103,7 @@ EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
 
-ENTRYPOINT ["/bin/bash"]
+ADD entry.sh /entry.sh
+RUN chmod 755 /entry.sh
+
+ENTRYPOINT ["/entry.sh"]
