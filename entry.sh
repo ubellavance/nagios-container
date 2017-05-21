@@ -1,8 +1,5 @@
-#!/bin/bash
-/etc/init.d/httpd start
-/etc/init.d/postfix start
-/etc/init.d/crond start
-/etc/init.d/nrpe start
-/etc/init.d/nagios start
+# Lets checkconfig these to always startup
+RUN for startup in nrpe crond httpd nagios sendmail;do /sbin/chkconfig $startup on;done
 
-/bin/bash
+# Configure services to star
+RUN for service in nrpe crond httpd nagios sendmail;do /sbin/service $service start;done
