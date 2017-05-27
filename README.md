@@ -7,6 +7,7 @@ A basic run script to start you container would be like this. Copy and past into
 
 #!/bin/bash
 docker run -itd \
+--entrypoint /bin/bash \
 --name nagios \
 --restart=always \
 -p 80:80 \
