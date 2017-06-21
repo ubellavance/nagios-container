@@ -62,6 +62,8 @@ RUN yum install -y \
 	perl-CGI \
 	perl-GD \
 	perl-CPAN \
+	perl-DBI \
+	perl-DBD-Pg \
 	epel-release
 
 # Add nagios and apache group and user info
