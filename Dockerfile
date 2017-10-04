@@ -2,15 +2,10 @@
 # nagios-container
 #
 # Builds a basic docker image that can run nagios
-#
-# Authors: Bosman
-# Updated: April 27th, 2017
-# Require: Docker (http://www.docker.io/)
-# -----------------------------------------------------------------------------
 
-# Base system is CentOS 6.9
-FROM    centos:centos6
-MAINTAINER "Bosman"
+# Base system is CentOS 7
+FROM    centos:centos7
+MAINTAINER "ubellavance"
 ENV container=docker \
 	NAGIOS_HOME="/etc/nagios" \
 	NAGIOS_BIN="/usr/sbin/nagios" \
@@ -22,7 +17,7 @@ ENV container=docker \
 	NAGIOSADMIN_PASS="nagios" \
 	APACHE_RUN_USER="nagios" \
 	APACHE_RUN_GROUP="nagios" \
-	NAGIOS_TIMEZONE="MST"
+	NAGIOS_TIMEZONE="EST"
 
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
@@ -64,7 +59,8 @@ RUN yum install -y \
 	perl-CPAN \
 	perl-DBI \
 	perl-DBD-Pg \
-	epel-release
+	epel-release \
+	vim
 
 # Add nagios and apache group and user info
 RUN useradd nagios \
@@ -73,15 +69,13 @@ RUN useradd nagios \
 	&& usermod -a -G nagcmd apache
 
 # Get the nagios rpm's
-RUN yum-config-manager --enable epel-testing \
-	&& yum clean all \
+RUN 	yum clean all \
 	&& yum install -y nrpe \
 	nagios \
 	nagios-plugins-all \
 	perl-Nagios-Plugin \
 	bash-completion \
 	pnp4nagios
-RUN yum-config-manager --disable epel-testing
 
 # Create and set the nagios login and password (change this for your custom use - username first then password).
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
