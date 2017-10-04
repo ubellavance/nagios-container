@@ -91,6 +91,8 @@ RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
 # Disable Nagios Notifications (comment this out if you want notifications out of the box).
 RUN perl -pi -e 's/^enable_notifications=1/enable_notifications=0/' /etc/nagios/nagios.cfg
 
+CMD [ "/bin/bash", "-c", "/usr/sbin/httpd;/usr/sbin/postfix start;/usr/sbin/nagios /etc/nagios/nagios.cfg" ]
+
 # Open ports for http/https/ntp
 # 443 is for https
 EXPOSE 443
