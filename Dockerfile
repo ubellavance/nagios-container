@@ -2,6 +2,8 @@
 # nagios-container
 #
 # Builds a basic docker image that can run nagios
+# -----------------------------------------------------------------------------
+
 
 # Base system is CentOS 7
 FROM    centos:centos7
