@@ -102,8 +102,3 @@ EXPOSE 80
 EXPOSE 123/UDP
 # 5666 for nrpe
 EXPOSE 5666
-
-ADD entry.sh /entry.sh
-RUN chmod 755 /entry.sh
-
-ENTRYPOINT ["/entry.sh"]
