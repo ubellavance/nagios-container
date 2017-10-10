@@ -78,7 +78,7 @@ RUN 	yum clean all \
 	nagios-plugins-all \
 	perl-Nagios-Plugin \
 	bash-completion \
-	pnp4nagios
+	pnp4nagios && yum clean all
 
 # Create and set the nagios login and password (change this for your custom use - username first then password).
 RUN /usr/bin/htpasswd -c -b /etc/nagios/htpasswd nagiosadmin nagiosadmin
