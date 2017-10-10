@@ -6,7 +6,7 @@
 
 
 # Base system is RHEL7
-FROM    rhel7
+FROM    registry.access.redhat.com/rhel7
 MAINTAINER "ubellavance"
 ENV container=docker \
 	NAGIOS_HOME="/etc/nagios" \
