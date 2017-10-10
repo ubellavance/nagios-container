@@ -6,7 +6,7 @@
 
 
 # Base system is RHEL7
-FROM    richxsl/rhel7
+FROM    registry.access.redhat.com/rhel7
 MAINTAINER "ubellavance"
 ENV container=docker \
 	NAGIOS_HOME="/etc/nagios" \
@@ -23,6 +23,9 @@ ENV container=docker \
 
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
+
+# Enable repos
+yum-config-manager --enable rhel-7-server-rpms > /dev/null
 
 # Lets get the latest patches for CentOS
 RUN yum clean all \
