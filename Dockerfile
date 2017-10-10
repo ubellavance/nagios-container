@@ -62,7 +62,8 @@ RUN yum install -y \
 	perl-DBI \
 	perl-DBD-Pg \
 	epel-release \
-	vim
+	vim\
+	htop
 
 # Add nagios and apache group and user info
 RUN useradd nagios \
