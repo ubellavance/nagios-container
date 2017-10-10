@@ -5,8 +5,8 @@
 # -----------------------------------------------------------------------------
 
 
-# Base system is CentOS 7
-FROM    centos:centos7
+# Base system is RHEL7
+FROM    richxsl/rhel7
 MAINTAINER "ubellavance"
 ENV container=docker \
 	NAGIOS_HOME="/etc/nagios" \
