@@ -24,9 +24,6 @@ ENV container=docker \
 # Environment paths
 ENV PATH /sbin:/bin:/usr/sbin:/usr/bin
 
-# Enable repos
-yum-config-manager --enable rhel-7-server-rpms > /dev/null
-
 # Lets get the latest patches for CentOS
 RUN yum clean all \
 	&& yum update -y
